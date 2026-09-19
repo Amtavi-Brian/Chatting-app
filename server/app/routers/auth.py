@@ -16,6 +16,8 @@ def register(user_in: UserCreate, db: Session = Depends(get_db)) -> UserRead:
 
 @router.post("/login", response_model=Token)
 def login(
+    # OAuth2PasswordRequestForm's `username` field carries the account's phone
+    # number, since phone numbers are the primary sign-in identifier.
     form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db),
 ) -> Token:
@@ -23,6 +25,6 @@ def login(
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password",
+            detail="Incorrect phone number or password",
         )
     return Token(access_token=create_token_for_user(user))
