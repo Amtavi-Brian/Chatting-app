@@ -34,42 +34,71 @@ export default function Register() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Create Account</h1>
-      {error && <p role="alert">{error}</p>}
-      <input
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        required
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Confirm Password"
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-        required
-      />
-      <button type="submit" disabled={submitting}>
-        {submitting ? "Creating account..." : "Sign Up"}
-      </button>
-      <p>
-        Already have an account? <Link to="/login">Log in</Link>
-      </p>
-    </form>
+    <div className="app-shell">
+      <div
+        className="phone-frame"
+        style={{ justifyContent: "center", alignItems: "center", padding: 24 }}
+      >
+        <form
+          onSubmit={handleSubmit}
+          style={{ width: "100%", maxWidth: 340, display: "flex", flexDirection: "column", gap: 14 }}
+        >
+          <div className="logo-icon" style={{ margin: "0 auto 8px" }}>
+            Z
+          </div>
+          <h1 style={{ textAlign: "center", margin: 0, fontSize: 24 }}>Create account</h1>
+          <p style={{ textAlign: "center", color: "var(--text-muted)", margin: "0 0 8px" }}>
+            Join and start chatting
+          </p>
+          {error && (
+            <p role="alert" style={{ color: "var(--accent-2)", textAlign: "center", margin: 0 }}>
+              {error}
+            </p>
+          )}
+          <input
+            className="auth-input"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+          <input
+            className="auth-input"
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            className="auth-input"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <input
+            className="auth-input"
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
+          <button
+            type="submit"
+            className="gradient-btn"
+            disabled={submitting}
+            style={{ padding: "12px 0", marginTop: 6, opacity: submitting ? 0.7 : 1 }}
+          >
+            {submitting ? "Creating account..." : "Sign Up"}
+          </button>
+          <p style={{ textAlign: "center", color: "var(--text-muted)" }}>
+            Already have an account? <Link to="/login">Log in</Link>
+          </p>
+        </form>
+      </div>
+    </div>
   );
 }

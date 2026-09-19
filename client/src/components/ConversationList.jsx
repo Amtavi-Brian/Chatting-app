@@ -11,10 +11,12 @@ export default function ConversationList({
   activeConversationId,
   onSelect,
   onCreated,
+  showNewChat,
+  onOpenNewChat,
+  onCloseNewChat,
 }) {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
-  const [showNewChat, setShowNewChat] = useState(false);
 
   const filtered = useMemo(() => {
     return conversations
@@ -33,7 +35,7 @@ export default function ConversationList({
       <div style={{ padding: "20px 16px 12px", display: "flex", alignItems: "center", gap: 12 }}>
         <div className="logo-icon">Z</div>
         <h1 style={{ flex: 1, margin: 0, fontSize: 24, fontWeight: 700 }}>Chats</h1>
-        <button className="icon-btn" onClick={() => setShowNewChat(true)} title="New chat">
+        <button className="icon-btn" onClick={onOpenNewChat} title="New chat">
           ✏️
         </button>
       </div>
@@ -166,9 +168,9 @@ export default function ConversationList({
       {showNewChat && (
         <NewChatModal
           currentUserId={currentUserId}
-          onClose={() => setShowNewChat(false)}
+          onClose={onCloseNewChat}
           onCreated={(conversation) => {
-            setShowNewChat(false);
+            onCloseNewChat();
             onCreated(conversation);
           }}
         />

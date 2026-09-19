@@ -141,3 +141,18 @@ input {
 a {
   color: var(--accent-2);
 }
+
+.auth-input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-alt);
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+
+.auth-input:focus {
+  border-color: var(--accent-1);
+}
