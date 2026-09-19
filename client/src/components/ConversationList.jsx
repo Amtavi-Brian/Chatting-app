@@ -167,7 +167,6 @@ export default function ConversationList({
 
       {showNewChat && (
         <NewChatModal
-          currentUserId={currentUserId}
           onClose={onCloseNewChat}
           onCreated={(conversation) => {
             onCloseNewChat();

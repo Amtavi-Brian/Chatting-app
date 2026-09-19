@@ -20,9 +20,9 @@ export function AuthProvider({ children }) {
       .finally(() => setLoading(false));
   }, []);
 
-  async function login(username, password) {
+  async function login(phoneNumber, password) {
     const form = new URLSearchParams();
-    form.append("username", username);
+    form.append("username", phoneNumber);
     form.append("password", password);
     const { data } = await apiClient.post("/auth/login", form);
     localStorage.setItem("access_token", data.access_token);
@@ -30,9 +30,14 @@ export function AuthProvider({ children }) {
     setUser(me);
   }
 
-  async function register(username, email, password) {
-    await apiClient.post("/auth/register", { username, email, password });
-    await login(username, password);
+  async function register(phoneNumber, password, { username, email } = {}) {
+    await apiClient.post("/auth/register", {
+      phone_number: phoneNumber,
+      username: username || undefined,
+      email: email || undefined,
+      password,
+    });
+    await login(phoneNumber, password);
   }
 
   function logout() {

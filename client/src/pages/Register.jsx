@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 export default function Register() {
   const { register } = useAuth();
   const navigate = useNavigate();
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,7 +24,7 @@ export default function Register() {
 
     setSubmitting(true);
     try {
-      await register(username, email, password);
+      await register(phoneNumber, password, { username, email });
       navigate("/");
     } catch (err) {
       const detail = err.response?.data?.detail;
@@ -57,18 +58,24 @@ export default function Register() {
           )}
           <input
             className="auth-input"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            type="tel"
+            placeholder="Phone number (e.g. +15551234567)"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
             required
           />
           <input
             className="auth-input"
+            placeholder="Display name (optional)"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            className="auth-input"
             type="email"
-            placeholder="Email"
+            placeholder="Email (optional)"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
           />
           <input
             className="auth-input"

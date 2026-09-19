@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext";
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -13,10 +13,10 @@ export default function Login() {
     e.preventDefault();
     setError("");
     try {
-      await login(username, password);
+      await login(phoneNumber, password);
       navigate("/");
     } catch (err) {
-      setError("Invalid username or password");
+      setError("Invalid phone number or password");
     }
   }
 
@@ -44,9 +44,10 @@ export default function Login() {
           )}
           <input
             className="auth-input"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            type="tel"
+            placeholder="Phone number (e.g. +15551234567)"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
           />
           <input
             className="auth-input"

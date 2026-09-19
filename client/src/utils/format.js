@@ -1,10 +1,14 @@
+function displayName(person) {
+  return person?.username || person?.phone_number || "Unknown";
+}
+
 export function conversationTitle(conversation, currentUserId) {
   if (!conversation) return "";
   if (conversation.is_group) {
-    return conversation.participants.map((p) => p.username).join(", ") || "Group chat";
+    return conversation.participants.map(displayName).join(", ") || "Group chat";
   }
   const other = conversation.participants.find((p) => p.id !== currentUserId);
-  return other?.username || conversation.participants[0]?.username || "Unknown";
+  return displayName(other || conversation.participants[0]);
 }
 
 export function conversationIsOnline(conversation, currentUserId) {
