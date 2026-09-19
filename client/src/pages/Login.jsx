@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
@@ -36,6 +36,9 @@ export default function Login() {
         onChange={(e) => setPassword(e.target.value)}
       />
       <button type="submit">Log In</button>
+      <p>
+        Don't have an account? <Link to="/register">Sign up</Link>
+      </p>
     </form>
   );
 }

@@ -30,13 +30,18 @@ export function AuthProvider({ children }) {
     setUser(me);
   }
 
+  async function register(username, email, password) {
+    await apiClient.post("/auth/register", { username, email, password });
+    await login(username, password);
+  }
+
   function logout() {
     localStorage.removeItem("access_token");
     setUser(null);
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );
