@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from app.dependencies import get_current_user, get_db
 from app.models.conversation import Conversation
@@ -33,11 +33,26 @@ def list_conversations(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ) -> list[ConversationRead]:
-    return (
+    conversations = (
         db.query(Conversation)
+        .options(joinedload(Conversation.participants), joinedload(Conversation.messages))
         .filter(Conversation.participants.any(User.id == current_user.id))
         .all()
     )
+
+    def sort_key(conversation: Conversation) -> object:
+        last = conversation.messages[-1] if conversation.messages else None
+        return last.created_at if last else conversation.created_at
+
+    conversations.sort(key=sort_key, reverse=True)
+
+    results = []
+    for conversation in conversations:
+        data = ConversationRead.model_validate(conversation)
+        if conversation.messages:
+            data.last_message = MessageRead.model_validate(conversation.messages[-1])
+        results.append(data)
+    return results
 
 
 @router.get("/{conversation_id}/messages", response_model=list[MessageRead])

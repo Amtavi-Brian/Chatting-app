@@ -2,6 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict
 
+from app.schemas.message import MessageRead
 from app.schemas.user import UserRead
 
 
@@ -19,3 +20,4 @@ class ConversationRead(ConversationBase):
     id: int
     created_at: datetime
     participants: list[UserRead] = []
+    last_message: MessageRead | None = None
