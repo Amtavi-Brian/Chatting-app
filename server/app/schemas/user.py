@@ -3,14 +3,17 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict, EmailStr, field_validator
 
-PHONE_REGEX = re.compile(r"^\+?[1-9]\d{7,14}$")
+# With a leading "+" the number must follow E.164 (country code never starts
+# with 0). Without "+", it's treated as a national number, which commonly
+# starts with a trunk-prefix "0" (e.g. "0712345678", "07123456789").
+PHONE_REGEX = re.compile(r"^(\+[1-9]\d{7,14}|[0-9]\d{7,14})$")
 
 
 def normalize_phone_number(value: str) -> str:
     cleaned = re.sub(r"[\s\-().]", "", value or "")
     if not PHONE_REGEX.match(cleaned):
         raise ValueError(
-            "Phone number must be in international format, e.g. +15551234567 "
+            "Enter a valid phone number, e.g. +15551234567 or 0712345678 "
             "(8-15 digits, optional leading +)."
         )
     return cleaned
