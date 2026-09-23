@@ -62,6 +62,21 @@ npm run dev
 ## API Docs
 FastAPI auto-generates interactive docs at `http://localhost:8000/docs` once the server is running.
 
+## Deploying the Frontend
+1. Configure environment variables before building — copy `client/.env.example` to `client/.env` locally, or set `REACT_APP_API_URL` / `REACT_APP_WS_URL` in your hosting provider's dashboard (these must point at your deployed backend and are baked in at build time).
+2. Build the static bundle:
+   ```bash
+   cd client
+   npm install
+   npm run build
+   ```
+   This produces a `client/build` folder ready to serve.
+3. Deploy `client/build` to any static host:
+   - **Netlify**: set base directory `client`, build command `npm run build`, publish directory `build` (the included `public/_redirects` handles client-side routing).
+   - **Vercel**: set root directory `client` (the included `vercel.json` handles client-side routing).
+   - **Nginx/self-hosted**: serve `client/build` and add a fallback so unknown paths return `index.html` (needed because the app uses `BrowserRouter`).
+4. Ensure the backend's CORS settings allow the deployed frontend's origin.
+
 ## Roadmap
 - [ ] File/image sharing
 - [ ] Read receipts
