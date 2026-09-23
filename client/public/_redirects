@@ -1,0 +1,3 @@
+# SPA fallback so client-side routes (e.g. /login) work on Netlify and
+# other static hosts that support this file (Render Static Sites, etc.).
+/*    /index.html   200
